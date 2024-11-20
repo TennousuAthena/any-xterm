@@ -1,6 +1,7 @@
 # Any-Xterm
 
 ## Server
+```
 Usage: any-xterm [OPTIONS]
 
 Options:
@@ -8,7 +9,7 @@ Options:
   -a, --addr <ADDR>        WebSocket 服务器地址 [default: 127.0.0.1:8080]
   -h, --help               Print help
   -V, --version            Print version
-
+```
 ## Web
 ```
 bun run dev
