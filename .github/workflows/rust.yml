@@ -60,9 +60,9 @@ jobs:
         run: |
           mkdir -p artifacts
           if [ "${{ runner.os }}" = "Windows" ]; then
-            cp target/${{ matrix.target }}/release/*.exe artifacts/
+            cp server/target/${{ matrix.target }}/release/*.exe artifacts/
           else
-            cp target/${{ matrix.target }}/release/* artifacts/
+            cp server/target/${{ matrix.target }}/release/* artifacts/
             chmod +x artifacts/*
           fi
 
