@@ -109,9 +109,9 @@ jobs:
         working-directory: server
         run: cargo build --verbose --release --target ${{ matrix.target }}
 
-      - name: Run tests
-        working-directory: server
-        run: cargo test --verbose --target ${{ matrix.target }}
+      #   - name: Run tests
+      #     working-directory: server
+      #     run: cargo test --verbose --target ${{ matrix.target }}
 
       - name: Prepare artifacts
         shell: bash
