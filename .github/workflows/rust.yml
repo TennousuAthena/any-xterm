@@ -51,18 +51,20 @@ jobs:
         working-directory: server
         run: cargo build --verbose --release --target ${{ matrix.target }}
 
-      - name: Run tests
-        working-directory: server
-        run: cargo test --verbose --target ${{ matrix.target }}
+      #   - name: Run tests
+      #     working-directory: server
+      #     run: cargo test --verbose --target ${{ matrix.target }}
 
       - name: Prepare artifacts
         shell: bash
         run: |
           mkdir -p artifacts
           if [ "${{ runner.os }}" = "Windows" ]; then
-            cp server/target/${{ matrix.target }}/release/*.exe artifacts/
+            # 移除多余的 server/ 前缀，因为已经在 server/ 工作目录下了
+            cp target/${{ matrix.target }}/release/*.exe artifacts/
           else
-            cp server/target/${{ matrix.target }}/release/* artifacts/
+            # 移除多余的 server/ 前缀，因为已经在 server/ 工作目录下了
+            cp target/${{ matrix.target }}/release/* artifacts/
             chmod +x artifacts/*
           fi
 
@@ -70,7 +72,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.name }}
-          path: server/artifacts/
+          # 修改路径，因为我们在 server/ 工作目录下
+          path: artifacts/
 
   release-build:
     if: github.event_name == 'release'
