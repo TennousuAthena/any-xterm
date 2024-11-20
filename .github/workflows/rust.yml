@@ -67,16 +67,12 @@ jobs:
           sudo apt-get install -y gcc-multilib
 
       - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --verbose --release --target ${{ matrix.target }}
+        working-directory: server
+        run: cargo build --verbose --release --target ${{ matrix.target }}
 
       - name: Run tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --verbose --target ${{ matrix.target }}
+        working-directory: server
+        run: cargo test --verbose --target ${{ matrix.target }}
 
       - name: Prepare artifacts
         shell: bash
