@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统监控</title>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 20px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+        #output {
+            white-space: pre;
+            padding: 20px;
+            background-color: #2d2d2d;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .status {
+            color: #4ec9b0;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="status" id="status">WebSocket 状态: 未连接</div>
+    <div id="output"></div>
+
+    <script>
+        const outputDiv = document.getElementById('output');
+        const statusDiv = document.getElementById('status');
+        
+        // 创建 WebSocket 连接
+        const ws = new WebSocket('ws://127.0.0.1:8080');
+
+        // WebSocket 事件处理
+        ws.onopen = () => {
+            statusDiv.textContent = 'WebSocket 状态: 已连接';
+            statusDiv.style.color = '#4ec9b0';
+        };
+
+        ws.onclose = () => {
+            statusDiv.textContent = 'WebSocket 状态: 已断开';
+            statusDiv.style.color = '#f44747';
+        };
+
+        ws.onerror = (error) => {
+            statusDiv.textContent = 'WebSocket 状态: 错误';
+            statusDiv.style.color = '#f44747';
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onmessage = (event) => {
+            outputDiv.textContent += event.data + '\n';
+            // 自动滚动到底部
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        };
+    </script>
+</body>
+</html>

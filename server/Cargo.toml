@@ -1,0 +1,13 @@
+[package]
+name = "any-xterm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.28", features = ["full"] }
+tokio-tungstenite = "0.20"
+futures-util = "0.3"
+tokio-stream = "0.1"
+futures = "0.3"
+clap = { version = "4.5", features = ["derive"] }
+uuid = { version = "1.7", features = ["v4"] }
