@@ -19,6 +19,13 @@ const maxReconnectAttempts = 99
 const baseDelay = 1000 // 初始延迟1秒
 let reconnectTimeout: number | null = null
 
+const getWebSocketUrl = () => {
+    const params = new URLSearchParams(window.location.search)
+    const addr = params.get('addr') || '127.0.0.1:8080'
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
+    return `${protocol}://${addr}`
+}
+
 onMounted(() => {
     // 初始化 xterm
     term.value = new Terminal({
@@ -42,7 +49,7 @@ onMounted(() => {
 
     // 写入欢迎信息
     term.value.writeln('[AnyXterm] \x1b[36mWelcome to AnyXterm!\x1b[0m')
-    term.value.writeln('[AnyXterm] \x1b[90mConnecting to WebSocket server...\x1b[0m')
+    term.value.writeln(`[AnyXterm] \x1b[90mConnecting to the server ${getWebSocketUrl()} ...\x1b[0m`)
 
     // 创建 WebSocket 连接
     initWebSocket()
@@ -62,7 +69,7 @@ onMounted(() => {
 })
 
 const initWebSocket = () => {
-    ws.value = new WebSocket('ws://127.0.0.1:8080')
+    ws.value = new WebSocket(getWebSocketUrl())
 
     ws.value.onopen = () => {
         term.value?.clear() // 清空屏幕
